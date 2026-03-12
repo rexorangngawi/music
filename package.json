@@ -1,0 +1,23 @@
+{
+  "name": "music",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p 3002"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.19",
+    "axios": "^1.5.0",
+    "file-type": "^18.7.0",
+    "form-data": "^4.0.0",
+    "lucide-react": "^0.577.0",
+    "next": "13.5.8",
+    "postcss": "^8.4.38",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "^3.4.4",
+    "yt-search": "^2.10.6"
+  }
+}
