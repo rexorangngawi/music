@@ -7,7 +7,6 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(null);
   
-  // State khusus untuk Custom Audio Player UI
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -27,7 +26,6 @@ export default function App() {
     }
   }, []);
 
-  // LOGIKA BACKEND 100% ASLI - TIDAK DIUBAH
   async function handleSearch(e) {
     e.preventDefault();
     if (!query.trim()) return;
@@ -56,7 +54,6 @@ export default function App() {
     }
   }
 
-  // LOGIKA BACKEND 100% ASLI - TIDAK DIUBAH
   async function handlePlayTrack(trackItem) {
     setCurrentTrack({ ...trackItem, isLoading: true });
     setIsPlaying(false);
@@ -83,7 +80,6 @@ export default function App() {
     }
   }
 
-  // Kontrol Custom Player UI
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -112,8 +108,7 @@ export default function App() {
   return (
     <div className={`min-h-screen flex flex-col bg-[#0b101c] text-slate-200 font-sans selection:bg-blue-500/30 ${currentTrack ? 'pb-32 sm:pb-28' : ''}`}>
       <div className="flex-grow max-w-3xl w-full mx-auto px-4 py-8 sm:px-6 sm:py-12">
-        
-        {/* Header */}
+
         <div className="flex items-center gap-4 mb-10 sm:mb-12">
           <div className="p-3 bg-blue-600/10 rounded-xl border border-blue-500/20 text-blue-500 shadow-sm">
             <Music className="w-7 h-7" />
@@ -126,7 +121,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Search Bar */}
         <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3 mb-10 sm:mb-12">
           <div className="relative flex-1">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -152,7 +146,6 @@ export default function App() {
           </button>
         </form>
 
-        {/* Empty State */}
         {!loading && results.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center px-4">
             <div className="p-5 bg-[#131b2e] rounded-full mb-4 border border-slate-800/80">
@@ -163,7 +156,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Result List */}
         <div className="space-y-3">
           {results.map((m) => {
             const isActive = currentTrack?.id === m.id;
@@ -175,7 +167,6 @@ export default function App() {
                 className={`group flex items-center gap-4 p-3 pr-4 sm:pr-5 rounded-xl cursor-pointer transition-colors
                   ${isActive ? 'bg-[#151f36] border border-blue-500/30' : 'bg-[#131b2e] hover:bg-[#1a243b] border border-transparent'}`}
               >
-                {/* Thumbnail */}
                 <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 overflow-hidden rounded-lg bg-[#0b101c]">
                   {m.thumbnail ? (
                     <img 
@@ -190,7 +181,6 @@ export default function App() {
                     </div>
                   )}
 
-                  {/* Efek Audio Visualizer saat dimainkan */}
                   {isActive && !currentTrack?.isLoading && (
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center backdrop-blur-[1px]">
                       <div className="flex gap-1 items-end h-3">
@@ -202,7 +192,6 @@ export default function App() {
                   )}
                 </div>
 
-                {/* Judul & Artis */}
                 <div className="flex-1 min-w-0">
                   <h3 className={`font-medium text-base truncate ${isActive ? 'text-blue-400' : 'text-slate-200 group-hover:text-white'}`}>
                     {m.title}
@@ -212,7 +201,6 @@ export default function App() {
                   </p>
                 </div>
 
-                {/* Icon Kanan */}
                 <div className="flex items-center justify-center w-10 h-10 flex-shrink-0">
                   {isActive && currentTrack?.isLoading ? (
                     <Loader2 className="w-5 h-5 animate-spin text-blue-500" />
@@ -228,7 +216,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* Footer */}
       <div className="w-full border-t border-slate-800 bg-[#0b101c] mt-auto">
         <div className="max-w-3xl mx-auto px-4 py-6 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-slate-500 text-sm">
@@ -259,11 +246,9 @@ export default function App() {
         </div>
       </div>
 
-      {/* CUSTOM AUDIO PLAYER DI BAWAH (Menggantikan Audio Bawaan) */}
       {currentTrack && (
         <div className="fixed bottom-0 inset-x-0 bg-[#0f1523] border-t border-slate-800 z-50 px-4 py-3 sm:px-6 shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.5)]">
           
-          {/* Element Audio Asli (Dihidden, hanya jadi mesin pemutar) */}
           {currentTrack.play && !currentTrack.isLoading && (
             <audio
               ref={audioRef}
@@ -286,11 +271,9 @@ export default function App() {
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                
-                {/* Atas: Gambar, Judul & Tombol Kontrol */}
+
                 <div className="flex items-center justify-between gap-4">
                   
-                  {/* Kiri: Cover & Info */}
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <img 
                       src={currentTrack.thumbnail} 
@@ -303,7 +286,6 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Kanan: Play/Pause & Close */}
                   <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
                     <button 
                       onClick={togglePlay}
@@ -324,7 +306,6 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Bawah: Progress Bar UI yang rapih */}
                 <div className="flex items-center gap-3 w-full pb-1">
                   <span className="text-[11px] sm:text-xs font-medium text-slate-500 w-9 text-right">
                     {formatTime(progress)}
