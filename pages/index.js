@@ -26,6 +26,41 @@ export default function App() {
     }
   }, []);
 
+  useEffect(() => {
+    if ('mediaSession' in navigator && currentTrack && !currentTrack.isLoading) {
+      navigator.mediaSession.metadata = new window.MediaMetadata({
+        title: currentTrack.title,
+        artist: currentTrack.uploader,
+        album: 'Simple Music Stream',
+        artwork: [
+          { src: currentTrack.thumbnail || 'https://via.placeholder.com/512', sizes: '512x512', type: 'image/jpeg' }
+        ]
+      });
+
+      navigator.mediaSession.setActionHandler('play', () => {
+        if (audioRef.current) {
+          audioRef.current.play();
+          setIsPlaying(true);
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('pause', () => {
+        if (audioRef.current) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('stop', () => {
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+        setCurrentTrack(null);
+        setIsPlaying(false);
+      });
+    }
+  }, [currentTrack]);
+  
   async function handleSearch(e) {
     e.preventDefault();
     if (!query.trim()) return;
@@ -108,7 +143,7 @@ export default function App() {
   return (
     <div className={`min-h-screen flex flex-col bg-[#0b101c] text-slate-200 font-sans selection:bg-blue-500/30 ${currentTrack ? 'pb-32 sm:pb-28' : ''}`}>
       <div className="flex-grow max-w-3xl w-full mx-auto px-4 py-8 sm:px-6 sm:py-12">
-
+        
         <div className="flex items-center gap-4 mb-10 sm:mb-12">
           <div className="p-3 bg-blue-600/10 rounded-xl border border-blue-500/20 text-blue-500 shadow-sm">
             <Music className="w-7 h-7" />
@@ -120,7 +155,7 @@ export default function App() {
             <p className="text-slate-400 text-sm mt-1">Dengarkan musik favoritmu dengan mudah</p>
           </div>
         </div>
-
+        
         <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3 mb-10 sm:mb-12">
           <div className="relative flex-1">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -271,7 +306,7 @@ export default function App() {
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-
+                
                 <div className="flex items-center justify-between gap-4">
                   
                   <div className="flex items-center gap-3 min-w-0 flex-1">
