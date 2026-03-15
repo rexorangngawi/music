@@ -50,7 +50,6 @@ export default function App() {
   }
 
   async function handlePlayTrack(trackItem) {
-    // 1. Set status loading, tapi TETAP GUNAKAN data dari trackItem (pencarian)
     setCurrentTrack({ ...trackItem, isLoading: true });
 
     try {
@@ -62,12 +61,9 @@ export default function App() {
       
       const data = await res.json();
       
-      // 2. PERBAIKAN UTAMA DI SINI
-      // Kita pertahankan metadata asli dari trackItem (thumbnail, title, uploader)
-      // Kita HANYA mengambil URL audio (data.play) dari hasil fetch
       setCurrentTrack({ 
-        ...trackItem,      // Data asli yang benar (Gambar, Judul)
-        play: data.play,   // Link MP3/Audio dari API
+        ...trackItem,
+        play: data.play,
         isLoading: false 
       });
 
@@ -149,8 +145,7 @@ export default function App() {
                     <Music className="w-6 h-6 text-slate-600" />
                   </div>
                 )}
-                
-                {/* Overlay saat lagu ini sedang dimainkan */}
+
                 {currentTrack?.id === m.id && !currentTrack?.isLoading && (
                   <div className="absolute inset-0 bg-blue-500/20 border-2 border-blue-500 rounded-xl"></div>
                 )}
@@ -165,7 +160,6 @@ export default function App() {
                 </p>
               </div>
 
-              {/* Tombol Play */}
               <button 
                 onClick={() => handlePlayTrack(m)}
                 className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 hover:bg-blue-500 text-white rounded-full transition-all duration-200 transform group-hover:scale-105 shadow-md focus:ring-4 focus:ring-blue-500/20 active:scale-95 flex-shrink-0"
@@ -214,12 +208,10 @@ export default function App() {
         </div>
       </div>
 
-      {/* STICKY BOTTOM MUSIC PLAYER (Sudah Dirapikan untuk Mobile) */}
       {currentTrack && (
         <div className="fixed bottom-0 inset-x-0 bg-slate-900/95 backdrop-blur-xl border-t border-slate-800 shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.5)] z-50 animate-in slide-in-from-bottom-5 duration-300">
           <div className="max-w-4xl mx-auto p-3 sm:px-4 sm:py-3 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 relative">
-            
-            {/* TAMPILAN HP: Bagian Atas (Gambar, Judul, Tombol Close) */}
+
             <div className="flex items-center justify-between w-full sm:w-1/3">
               <div className="flex items-center gap-3 min-w-0 pr-2">
                 <img 
@@ -242,7 +234,6 @@ export default function App() {
               </button>
             </div>
 
-            {/* TAMPILAN HP: Bagian Bawah (Audio Kontrol) */}
             <div className="w-full sm:w-2/3 flex items-center justify-center sm:justify-start sm:pr-12">
               {currentTrack.isLoading ? (
                 <div className="flex items-center gap-2 text-blue-400 h-10">
